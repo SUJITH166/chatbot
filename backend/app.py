@@ -69,6 +69,7 @@ def get_model():
             "all-MiniLM-L6-v2",
             device="cpu"
         )
+        print("SentenceTransformer model loaded.")
 
     return model
 
