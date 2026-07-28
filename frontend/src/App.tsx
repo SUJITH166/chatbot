@@ -6,8 +6,8 @@ function App() {
   const [question, setQuestion] = useState("");
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
-
-
+  const API_URL = import.meta.env.VITE_API_URL;
+    
   const askQuestion = async () => {
 
     if (!question) return;
@@ -17,14 +17,14 @@ function App() {
     try {
 
       const response = await fetch(
-        "http://127.0.0.1:8000/ask",
+        `${API_URL}/ask`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            question: question,
+            question: question, 
           }),
         }
       );
