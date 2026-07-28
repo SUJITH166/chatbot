@@ -32,7 +32,8 @@ print("Chunks created:", len(chunks))
 
 # Create embeddings
 model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
+    "all-MiniLM-L6-v2",
+    device="cpu"
 )
 
 embeddings = model.encode(chunks).tolist()
