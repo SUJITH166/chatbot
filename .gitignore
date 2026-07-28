@@ -1,0 +1,7 @@
+backend/.env
+backend/venv/
+backend/chroma_db
+frontend/node_modules
+backend/__pycache__/
+backend/uploads/
+backend/chroma_db
