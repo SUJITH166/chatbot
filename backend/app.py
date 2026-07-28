@@ -22,7 +22,9 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://chatbot-1-pi-liard.vercel.app"
+    ],
     allow_methods=["*"],
     allow_headers=["*"],
 )
