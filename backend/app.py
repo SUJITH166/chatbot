@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
 import chromadb
-from sentence_transformers import SentenceTransformer
+
 from fastapi.middleware.cors import CORSMiddleware
 from groq import Groq
 import os
@@ -30,13 +30,28 @@ app.add_middleware(
 
 # Load ChromaDB
 
-client = chromadb.PersistentClient(
-    path="./chroma_db"
+client = None
+collection = None
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+CHROMA_PATH = os.path.join(
+    BASE_DIR,
+    "chroma_db"
 )
 
-collection = client.get_collection(
-    name="pdfs"
-)
+def get_collection():
+    global client, collection
+
+    if collection is None:
+        client = chromadb.PersistentClient(
+            path=CHROMA_PATH
+        )   
+
+        collection = client.get_or_create_collection(
+            name="pdfs"
+        )
+
+    return collection
 
 
 model = None
@@ -46,6 +61,8 @@ def get_model():
     global model
 
     if model is None:
+        from sentence_transformers import SentenceTransformer
+
         model = SentenceTransformer(
             "all-MiniLM-L6-v2",
             device="cpu"
@@ -72,7 +89,9 @@ def ask(question: Question):
     print("2. Embedding created")
 
 
-    result = collection.query(
+    pdf_collection = get_collection()
+
+    result = pdf_collection.query(
         query_embeddings=[embedding],
         n_results=3
     )
@@ -130,7 +149,3 @@ Question:
         "answer": answer
     }
 
-
-    return {
-        "answer": answer
-    }
