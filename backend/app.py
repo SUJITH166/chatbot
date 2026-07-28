@@ -39,9 +39,19 @@ collection = client.get_collection(
 )
 
 
-model = SentenceTransformer(
-    "all-MiniLM-L6-v2"
-)
+model = None
+
+
+def get_model():
+    global model
+
+    if model is None:
+        model = SentenceTransformer(
+            "all-MiniLM-L6-v2",
+            device="cpu"
+        )
+
+    return model
 
 
 class Question(BaseModel):
@@ -53,7 +63,9 @@ def ask(question: Question):
 
     print("1. Question received:", question.question)
 
-    embedding = model.encode(
+    embedding_model = get_model()
+
+    embedding = embedding_model.encode(
         question.question
     ).tolist()
 
