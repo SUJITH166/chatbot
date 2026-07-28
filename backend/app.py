@@ -79,27 +79,31 @@ class Question(BaseModel):
 
 
 @app.post("/ask")
-def ask(question: Question):
 
+def ask(question: Question):
+    print("🔥 ASK API HIT")
     print("1. Question received:", question.question)
 
     embedding_model = get_model()
+    print("✅ Model loaded")
 
     embedding = embedding_model.encode(
         question.question
     ).tolist()
 
-    print("2. Embedding created")
+    print("✅ Embedding created")
 
 
     pdf_collection = get_collection()
+    print("✅ Chroma loaded")
 
     result = pdf_collection.query(
         query_embeddings=[embedding],
         n_results=3
     )
 
-    print("3. Chroma result:", result)
+    
+    print("✅ Chroma query completed")
 
 
     context = "\n\n".join(
