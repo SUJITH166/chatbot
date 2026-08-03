@@ -9,16 +9,18 @@ function App() {
   const API_URL = import.meta.env.VITE_API_URL;
     
   const askQuestion = async () => {
-
+ console.log("entered askQuestion 1")
     if (!question) return;
 
     setLoading(true);
 
     try {
-
+      console.log("entered try 2")
       const response = await fetch(
         `${API_URL}/ask`,
+        
         {
+          
           method: "POST",
           headers: {
             "Content-Type": "application/json",
