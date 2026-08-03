@@ -25,6 +25,7 @@ app.add_middleware(
     allow_origins=[
         "https://chatbot-1-pi-liard.vercel.app"
     ],
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
